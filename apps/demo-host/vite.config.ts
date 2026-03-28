@@ -1,0 +1,22 @@
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import path from "path";
+
+export default defineConfig({
+  plugins: [react()],
+  resolve: {
+    alias: {
+      "@datumart/react-widgets": path.resolve(
+        __dirname,
+        "../../packages/react-widgets/src/index.ts"
+      ),
+    },
+  },
+  server: {
+    port: 5173,
+    fs: {
+      allow: ["../.."],
+    },
+  },
+  publicDir: "../../mock",
+});
