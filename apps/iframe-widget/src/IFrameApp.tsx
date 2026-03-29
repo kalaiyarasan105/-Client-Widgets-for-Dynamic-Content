@@ -29,6 +29,21 @@ export const IFrameApp: React.FC = () => {
     );
   }, [type]);
 
+  // Send height updates to parent so iframe auto-resizes
+  useEffect(() => {
+    const sendHeight = () => {
+      const height = document.documentElement.scrollHeight;
+      window.parent.postMessage(
+        { source: "datumart-widget", event: "resize", height },
+        "*"
+      );
+    };
+    sendHeight();
+    const observer = new ResizeObserver(sendHeight);
+    observer.observe(document.body);
+    return () => observer.disconnect();
+  }, []);
+
   const handleReadMore = (post: BlogPost) => {
     window.parent.postMessage(
       { source: "datumart-widget", event: "readmore", type: "blog", postId: post.id },

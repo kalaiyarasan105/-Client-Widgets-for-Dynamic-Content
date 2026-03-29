@@ -115,6 +115,8 @@ export const App: React.FC = () => {
   });
   const [activeTab, setActiveTab] = useState<Tab>("jsx-blog");
   const [iframeLog, setIframeLog] = useState<string[]>([]);
+  const [iframeBlogHeight, setIframeBlogHeight] = useState(520);
+  const [iframeSeoHeight, setIframeSeoHeight] = useState(380);
 
   const isDark = theme === "dark";
 
@@ -124,6 +126,11 @@ export const App: React.FC = () => {
       if (e.data?.source === "datumart-widget") {
         if (e.data.event === "readmore" && e.data.postId) {
           navigate(`/blog/${e.data.postId}`);
+          return;
+        }
+        if (e.data.event === "resize" && e.data.height) {
+          if (activeTab === "iframe-blog") setIframeBlogHeight(e.data.height + 32);
+          if (activeTab === "iframe-seo") setIframeSeoHeight(e.data.height + 32);
           return;
         }
         setIframeLog((prev) => [
@@ -146,7 +153,7 @@ export const App: React.FC = () => {
   const header: React.CSSProperties = {
     backgroundColor: isDark ? "#1e293b" : "#ffffff",
     borderBottom: `1px solid ${isDark ? "#334155" : "#e2e8f0"}`,
-    padding: "1rem 2rem",
+    padding: "0.75rem 1rem",
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
@@ -175,8 +182,9 @@ export const App: React.FC = () => {
   const tabBar: React.CSSProperties = {
     display: "flex",
     gap: "0.25rem",
-    padding: "1.25rem 2rem 0",
+    padding: "1rem 1rem 0",
     flexWrap: "wrap",
+    overflowX: "auto",
   };
 
   const tabBtn = (id: Tab): React.CSSProperties => ({
@@ -204,19 +212,21 @@ export const App: React.FC = () => {
   });
 
   const content: React.CSSProperties = {
-    margin: "0 2rem 2rem",
-    padding: "1.5rem",
+    margin: "0 1rem 2rem",
+    padding: "1rem",
     borderRadius: "0 8px 8px 8px",
     border: `1px solid ${isDark ? "#334155" : "#e2e8f0"}`,
     backgroundColor: isDark ? "#1e293b" : "#ffffff",
+    overflowX: "hidden",
   };
 
   const iframeStyle: React.CSSProperties = {
     width: "100%",
-    minHeight: "520px",
+    height: `${iframeBlogHeight}px`,
     border: "none",
     borderRadius: "8px",
     display: "block",
+    overflow: "hidden",
   };
 
   const logBox: React.CSSProperties = {
@@ -335,7 +345,7 @@ export const App: React.FC = () => {
             <p style={sectionTitle}>IFrame Embed — SEO Widget</p>
             <iframe
               src={`${IFRAME_BASE}?type=seo&pageId=home-page&preview=true&theme=${theme}`}
-              style={{ ...iframeStyle, minHeight: "380px" }}
+              style={{ ...iframeStyle, height: `${iframeSeoHeight}px` }}
               title="Datumart SEO Widget"
             />
             <CodeBlock isDark={isDark} lang="html" code={`<iframe

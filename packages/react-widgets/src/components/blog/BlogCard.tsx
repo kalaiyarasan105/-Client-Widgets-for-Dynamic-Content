@@ -11,20 +11,22 @@ interface Props {
 export const BlogCard: React.FC<Props> = ({ post, theme, featured = false, onReadMore }) => {
   const isDark = theme === "dark";
 
+  const isMobile = typeof window !== "undefined" && window.innerWidth < 600;
+
   const card: React.CSSProperties = {
     borderRadius: "10px",
     overflow: "hidden",
     border: `1px solid ${isDark ? "#374151" : "#e5e7eb"}`,
     backgroundColor: isDark ? "#1f2937" : "#ffffff",
     display: "flex",
-    flexDirection: featured ? "row" : "column",
+    flexDirection: featured && !isMobile ? "row" : "column",
     transition: "box-shadow 0.2s",
     boxShadow: "0 1px 3px rgba(0,0,0,0.08)",
   };
 
   const imgStyle: React.CSSProperties = {
-    width: featured ? "45%" : "100%",
-    height: featured ? "100%" : "180px",
+    width: featured && !isMobile ? "45%" : "100%",
+    height: featured && !isMobile ? "100%" : "180px",
     objectFit: "cover",
     flexShrink: 0,
   };
