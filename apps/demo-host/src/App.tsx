@@ -5,7 +5,10 @@ import type { WidgetTheme } from "@datumart/react-widgets";
 
 type Tab = "jsx-blog" | "jsx-seo" | "iframe-blog" | "iframe-seo";
 
-const IFRAME_BASE = import.meta.env.VITE_IFRAME_BASE ?? "http://localhost:5174";
+const IFRAME_BASE =
+  (window as unknown as { __IFRAME_BASE__?: string }).__IFRAME_BASE__ ??
+  import.meta.env.VITE_IFRAME_BASE ??
+  "http://localhost:5174";
 
 // ---------------------------------------------------------------------------
 // CodeBlock — styled code snippet with header bar + copy button
