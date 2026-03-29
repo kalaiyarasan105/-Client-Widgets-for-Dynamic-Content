@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { BlogWidget, SeoWidget } from "@datumart/react-widgets";
-import type { WidgetTheme } from "@datumart/react-widgets";
+import type { WidgetTheme, BlogPost } from "@datumart/react-widgets";
 
 /**
  * Reads URL query params and renders the appropriate widget.
@@ -29,6 +29,13 @@ export const IFrameApp: React.FC = () => {
     );
   }, [type]);
 
+  const handleReadMore = (post: BlogPost) => {
+    window.parent.postMessage(
+      { source: "datumart-widget", event: "readmore", type: "blog", postId: post.id },
+      "*"
+    );
+  };
+
   const wrapperStyle: React.CSSProperties = {
     minHeight: "100vh",
     backgroundColor: theme === "dark" ? "#0f172a" : "#f8fafc",
@@ -49,6 +56,7 @@ export const IFrameApp: React.FC = () => {
           limit={limit}
           theme={theme}
           dataUrl="/widgets.json"
+          onReadMore={handleReadMore}
         />
       )}
     </div>

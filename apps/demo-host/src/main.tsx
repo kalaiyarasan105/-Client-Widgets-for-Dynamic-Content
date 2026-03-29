@@ -24,13 +24,19 @@ class ErrorBoundary extends React.Component<
   }
 }
 
+// Reads theme persisted by App.tsx so BlogDetail matches the selected theme
+const BlogDetailWrapper: React.FC = () => {
+  const isDark = localStorage.getItem("theme") === "dark";
+  return <BlogDetail isDark={isDark} />;
+};
+
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <ErrorBoundary>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<App />} />
-          <Route path="/blog/:id" element={<BlogDetail isDark={false} />} />
+          <Route path="/blog/:id" element={<BlogDetailWrapper />} />
         </Routes>
       </BrowserRouter>
     </ErrorBoundary>

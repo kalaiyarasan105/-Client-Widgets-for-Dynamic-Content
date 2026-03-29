@@ -110,7 +110,9 @@ const CodeBlock: React.FC<{ code: string; lang?: string; isDark: boolean }> = ({
 
 export const App: React.FC = () => {
   const navigate = useNavigate();
-  const [theme, setTheme] = useState<WidgetTheme>("light");
+  const [theme, setTheme] = useState<WidgetTheme>(() => {
+    return (localStorage.getItem("theme") as WidgetTheme) ?? "light";
+  });
   const [activeTab, setActiveTab] = useState<Tab>("jsx-blog");
   const [iframeLog, setIframeLog] = useState<string[]>([]);
 
@@ -120,6 +122,10 @@ export const App: React.FC = () => {
   useEffect(() => {
     const handler = (e: MessageEvent) => {
       if (e.data?.source === "datumart-widget") {
+        if (e.data.event === "readmore" && e.data.postId) {
+          navigate(`/blog/${e.data.postId}`);
+          return;
+        }
         setIframeLog((prev) => [
           `[${new Date().toLocaleTimeString()}] event="${e.data.event}" type="${e.data.type}"`,
           ...prev.slice(0, 4),
@@ -128,7 +134,7 @@ export const App: React.FC = () => {
     };
     window.addEventListener("message", handler);
     return () => window.removeEventListener("message", handler);
-  }, []);
+  }, [navigate]);
 
   const page: React.CSSProperties = {
     minHeight: "100vh",
@@ -242,7 +248,11 @@ export const App: React.FC = () => {
           <span style={{ fontSize: "0.85rem", color: isDark ? "#94a3b8" : "#64748b" }}>
             Demo Host
           </span>
-          <button style={toggleBtn} onClick={() => setTheme(isDark ? "light" : "dark")}>
+          <button style={toggleBtn} onClick={() => {
+            const next = isDark ? "light" : "dark";
+            localStorage.setItem("theme", next);
+            setTheme(next);
+          }}>
             {isDark ? "☀️ Light" : "🌙 Dark"}
           </button>
         </div>
