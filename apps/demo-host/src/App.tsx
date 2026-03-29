@@ -118,6 +118,9 @@ export const App: React.FC = () => {
   const [iframeBlogHeight, setIframeBlogHeight] = useState(520);
   const [iframeSeoHeight, setIframeSeoHeight] = useState(380);
 
+  // Detect mobile — iframes are unreliable on mobile browsers
+  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+
   const isDark = theme === "dark";
 
   // Listen for postMessage events from the iframe
@@ -317,11 +320,20 @@ export const App: React.FC = () => {
         {activeTab === "iframe-blog" && (
           <>
             <p style={sectionTitle}>IFrame Embed — Blog Widget</p>
-            <iframe
-              src={`${IFRAME_BASE}?type=blog&limit=5&theme=${theme}`}
-              style={iframeStyle}
-              title="Datumart Blog Widget"
-            />
+            {isMobile ? (
+              <>
+                <p style={{ fontSize: "0.75rem", color: isDark ? "#64748b" : "#94a3b8", marginBottom: "0.75rem" }}>
+                  ℹ️ Rendered as JSX on mobile (iframes are blocked by mobile browsers)
+                </p>
+                <BlogWidget limit={5} theme={theme} dataUrl="/widgets.json" onReadMore={(post) => navigate(`/blog/${post.id}`)} />
+              </>
+            ) : (
+              <iframe
+                src={`${IFRAME_BASE}?type=blog&limit=5&theme=${theme}`}
+                style={iframeStyle}
+                title="Datumart Blog Widget"
+              />
+            )}
             <CodeBlock isDark={isDark} lang="html" code={`<iframe
   src="${IFRAME_BASE}?type=blog&limit=5&theme=${theme}"
   width="100%"
@@ -343,11 +355,20 @@ export const App: React.FC = () => {
         {activeTab === "iframe-seo" && (
           <>
             <p style={sectionTitle}>IFrame Embed — SEO Widget</p>
-            <iframe
-              src={`${IFRAME_BASE}?type=seo&pageId=home-page&preview=true&theme=${theme}`}
-              style={{ ...iframeStyle, height: `${iframeSeoHeight}px` }}
-              title="Datumart SEO Widget"
-            />
+            {isMobile ? (
+              <>
+                <p style={{ fontSize: "0.75rem", color: isDark ? "#64748b" : "#94a3b8", marginBottom: "0.75rem" }}>
+                  ℹ️ Rendered as JSX on mobile (iframes are blocked by mobile browsers)
+                </p>
+                <SeoWidget pageId="home-page" showPreview theme={theme} dataUrl="/widgets.json" />
+              </>
+            ) : (
+              <iframe
+                src={`${IFRAME_BASE}?type=seo&pageId=home-page&preview=true&theme=${theme}`}
+                style={{ ...iframeStyle, height: `${iframeSeoHeight}px` }}
+                title="Datumart SEO Widget"
+              />
+            )}
             <CodeBlock isDark={isDark} lang="html" code={`<iframe
   src="${IFRAME_BASE}?type=seo&pageId=home-page&preview=true&theme=${theme}"
   width="100%"
