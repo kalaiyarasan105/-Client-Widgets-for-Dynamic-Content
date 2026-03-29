@@ -1,0 +1,97 @@
+{
+  "blogs": [
+    {
+      "id": "1",
+      "title": "Getting Started with React Widgets",
+      "excerpt": "Learn how to build reusable React widgets that can be embedded anywhere on the web using iframes or JSX components.",
+      "image": "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=600&q=80",
+      "publishDate": "2026-03-01",
+      "readMoreUrl": "https://datumart.com/blog/getting-started-react-widgets",
+      "author": "Datumart Team",
+      "tags": ["React", "Widgets", "TypeScript"]
+    },
+    {
+      "id": "2",
+      "title": "SEO Best Practices for Dynamic Content",
+      "excerpt": "Discover how to optimize your dynamically rendered content for search engines and improve your website's visibility.",
+      "image": "https://images.unsplash.com/photo-1562577309-4932fdd64cd1?w=600&q=80",
+      "publishDate": "2026-03-08",
+      "readMoreUrl": "https://datumart.com/blog/seo-best-practices",
+      "author": "SEO Team",
+      "tags": ["SEO", "Content", "Marketing"]
+    },
+    {
+      "id": "3",
+      "title": "Building a Monorepo with npm Workspaces",
+      "excerpt": "A step-by-step guide to structuring your JavaScript projects using npm workspaces for better code sharing.",
+      "image": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=600&q=80",
+      "publishDate": "2026-03-15",
+      "readMoreUrl": "https://datumart.com/blog/monorepo-npm-workspaces",
+      "author": "Dev Team",
+      "tags": ["Monorepo", "npm", "Architecture"]
+    },
+    {
+      "id": "4",
+      "title": "Tailwind CSS Tips for Component Libraries",
+      "excerpt": "Practical tips for using Tailwind CSS when building reusable component libraries without style conflicts.",
+      "image": "https://images.unsplash.com/photo-1507721999472-8ed4421c4af2?w=600&q=80",
+      "publishDate": "2026-03-20",
+      "readMoreUrl": "https://datumart.com/blog/tailwind-component-libraries",
+      "author": "UI Team",
+      "tags": ["Tailwind", "CSS", "Components"]
+    },
+    {
+      "id": "5",
+      "title": "IFrame Security and postMessage API",
+      "excerpt": "Understanding cross-origin communication between iframes and parent windows using the postMessage API safely.",
+      "image": "https://images.unsplash.com/photo-1614064641938-3bbee52942c7?w=600&q=80",
+      "publishDate": "2026-03-25",
+      "readMoreUrl": "https://datumart.com/blog/iframe-security-postmessage",
+      "author": "Security Team",
+      "tags": ["IFrame", "Security", "postMessage"]
+    }
+  ],
+  "seoPages": {
+    "home-page": {
+      "pageId": "home-page",
+      "pageTitle": "Datumart — Dynamic Content & SEO Tools",
+      "metaDescription": "Datumart helps businesses manage dynamic website content and digital growth with powerful widgets and SEO tools.",
+      "canonicalUrl": "https://datumart.com/",
+      "keywords": ["datumart", "content management", "SEO tools", "dynamic widgets", "digital growth"],
+      "structuredData": {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Datumart",
+        "url": "https://datumart.com",
+        "description": "Dynamic content and SEO management platform"
+      }
+    },
+    "blog-page": {
+      "pageId": "blog-page",
+      "pageTitle": "Datumart Blog — Insights on SEO & Content",
+      "metaDescription": "Read the latest articles on SEO strategies, content marketing, and web development from the Datumart team.",
+      "canonicalUrl": "https://datumart.com/blog",
+      "keywords": ["blog", "SEO", "content marketing", "web development", "tutorials"],
+      "structuredData": {
+        "@context": "https://schema.org",
+        "@type": "Blog",
+        "name": "Datumart Blog",
+        "url": "https://datumart.com/blog",
+        "description": "Insights on SEO and content management"
+      }
+    },
+    "about-page": {
+      "pageId": "about-page",
+      "pageTitle": "About Datumart — Our Mission & Team",
+      "metaDescription": "Learn about Datumart's mission to empower businesses with smarter content and SEO management solutions.",
+      "canonicalUrl": "https://datumart.com/about",
+      "keywords": ["about datumart", "mission", "team", "company"],
+      "structuredData": {
+        "@context": "https://schema.org",
+        "@type": "AboutPage",
+        "name": "About Datumart",
+        "url": "https://datumart.com/about"
+      }
+    }
+  }
+}

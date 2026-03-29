@@ -14,11 +14,5 @@ export default defineConfig({
   },
   server: {
     port: 5174,
-    // Serve mock data from the root mock/ folder
-    fs: {
-      allow: ["../.."],
-    },
   },
-  // Make /mock/widgets.json available as a static asset
-  publicDir: "../../mock",
 });
