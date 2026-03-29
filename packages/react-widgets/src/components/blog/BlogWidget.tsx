@@ -22,6 +22,7 @@ export const BlogWidget: React.FC<BlogWidgetProps> = ({
   limit = 5,
   theme = "light",
   dataUrl = DEFAULT_DATA_URL,
+  onReadMore,
 }) => {
   const { data, loading, error } = useWidgetData<WidgetsJson>(dataUrl);
   const isDark = theme === "dark";
@@ -74,14 +75,14 @@ export const BlogWidget: React.FC<BlogWidgetProps> = ({
 
       {/* Featured post — full width */}
       <div style={{ marginBottom: "1rem" }}>
-        <BlogCard post={featured} theme={theme} featured />
+        <BlogCard post={featured} theme={theme} featured onReadMore={onReadMore} />
       </div>
 
       {/* Remaining posts — grid */}
       {rest.length > 0 && (
         <div style={gridStyle}>
           {rest.map((post) => (
-            <BlogCard key={post.id} post={post} theme={theme} />
+            <BlogCard key={post.id} post={post} theme={theme} onReadMore={onReadMore} />
           ))}
         </div>
       )}

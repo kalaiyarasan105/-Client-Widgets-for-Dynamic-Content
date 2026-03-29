@@ -5,9 +5,10 @@ interface Props {
   post: BlogPost;
   theme: WidgetTheme;
   featured?: boolean;
+  onReadMore?: (post: BlogPost) => void;
 }
 
-export const BlogCard: React.FC<Props> = ({ post, theme, featured = false }) => {
+export const BlogCard: React.FC<Props> = ({ post, theme, featured = false, onReadMore }) => {
   const isDark = theme === "dark";
 
   const card: React.CSSProperties = {
@@ -106,11 +107,12 @@ export const BlogCard: React.FC<Props> = ({ post, theme, featured = false }) => 
           ))}
         </div>
         <a
-          href={post.readMoreUrl}
-          target="_blank"
+          href={onReadMore ? undefined : post.readMoreUrl}
+          target={onReadMore ? undefined : "_blank"}
           rel="noopener noreferrer"
           style={btnStyle}
           aria-label={`Read more about ${post.title}`}
+          onClick={onReadMore ? (e) => { e.preventDefault(); onReadMore(post); } : undefined}
         >
           Read More →
         </a>

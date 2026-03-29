@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { BlogWidget, SeoWidget } from "@datumart/react-widgets";
 import type { WidgetTheme } from "@datumart/react-widgets";
 
 type Tab = "jsx-blog" | "jsx-seo" | "iframe-blog" | "iframe-seo";
 
-const IFRAME_BASE = "http://localhost:5174";
+const IFRAME_BASE = import.meta.env.VITE_IFRAME_BASE ?? "http://localhost:5174";
 
 // ---------------------------------------------------------------------------
 // CodeBlock — styled code snippet with header bar + copy button
@@ -105,6 +106,7 @@ const CodeBlock: React.FC<{ code: string; lang?: string; isDark: boolean }> = ({
 };
 
 export const App: React.FC = () => {
+  const navigate = useNavigate();
   const [theme, setTheme] = useState<WidgetTheme>("light");
   const [activeTab, setActiveTab] = useState<Tab>("jsx-blog");
   const [iframeLog, setIframeLog] = useState<string[]>([]);
@@ -262,7 +264,7 @@ export const App: React.FC = () => {
         {activeTab === "jsx-blog" && (
           <>
             <p style={sectionTitle}>JSX Component — BlogWidget</p>
-            <BlogWidget limit={5} theme={theme} dataUrl="/widgets.json" />
+            <BlogWidget limit={5} theme={theme} dataUrl="/widgets.json" onReadMore={(post) => navigate(`/blog/${post.id}`)} />
             <CodeBlock isDark={isDark} lang="tsx" code={`import { BlogWidget } from "@datumart/react-widgets";
 
 <BlogWidget

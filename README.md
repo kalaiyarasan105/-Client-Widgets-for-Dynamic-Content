@@ -188,12 +188,16 @@ packages/react-widgets/
 ## AI Tools Used
 
 This project was scaffolded with AI assistance (Kiro). The following areas were AI-assisted:
-- Initial project structure and boilerplate
-- TypeScript type definitions
-- Inline styles for theme support
+-Initial project structure and boilerplate setup
+-TypeScript type definitions for widget props
+-Inline styles and theme support implementation
+-Suggestions for responsive layout and component organization
 
 The following were manually validated:
-- postMessage event flow
-- IFrame URL param parsing logic
-- Test assertions and mock setup
-- Data URL routing between apps
+-Widget architecture design (JSX + IFrame)
+-Props-based configuration logic
+-Mock API integration using local JSON
+-Responsive layout and UI adjustments
+-Dark/light theme toggle implementation
+-Testing iframe query parameter handling
+-Final component cleanup and optimization

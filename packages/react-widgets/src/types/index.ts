@@ -24,6 +24,8 @@ export interface BlogWidgetProps {
   theme?: "light" | "dark";
   /** Override data source URL — defaults to mock JSON */
   dataUrl?: string;
+  /** Called when Read More is clicked — use for internal routing */
+  onReadMore?: (post: BlogPost) => void;
 }
 
 export interface SeoWidgetProps {
