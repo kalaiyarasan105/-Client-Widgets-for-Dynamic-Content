@@ -3,7 +3,7 @@ import type { SeoWidgetProps, SeoPage } from "../../types";
 import { useWidgetData } from "../../hooks/useWidgetData";
 import { LoadingSpinner } from "../shared/LoadingSpinner";
 import { ErrorMessage } from "../shared/ErrorMessage";
-import { EmptyState } from "../shared/EmptyState";
+import { EmptyState } from "../shared/EmptyState";//20,26, 27 uses toogle state to show/hide,
 
 const DEFAULT_DATA_URL = "/mock/widgets.json";
 

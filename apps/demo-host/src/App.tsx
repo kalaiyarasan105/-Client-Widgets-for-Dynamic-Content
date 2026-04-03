@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { BlogWidget, SeoWidget } from "@datumart/react-widgets";
-import type { WidgetTheme } from "@datumart/react-widgets";
+import type { WidgetTheme } from "@datumart/react-widgets";//6,126,330
 
 type Tab = "jsx-blog" | "jsx-seo" | "iframe-blog" | "iframe-seo";
 
@@ -290,7 +290,7 @@ export const App: React.FC = () => {
         {activeTab === "jsx-blog" && (
           <>
             <p style={sectionTitle}>JSX Component — BlogWidget</p>
-            <BlogWidget limit={5} theme={theme} dataUrl="/widgets.json" onReadMore={(post) => navigate(`/blog/${post.id}`)} />
+            <BlogWidget limit={6} theme={theme} dataUrl="/widgets.json" onReadMore={(post) => navigate(`/blog/${post.id}`)} />
             <CodeBlock isDark={isDark} lang="tsx" code={`import { BlogWidget } from "@datumart/react-widgets";
 
 <BlogWidget
@@ -323,13 +323,12 @@ export const App: React.FC = () => {
             {isMobile ? (
               <>
                 <p style={{ fontSize: "0.75rem", color: isDark ? "#64748b" : "#94a3b8", marginBottom: "0.75rem" }}>
-                  ℹ️ Rendered as JSX on mobile (iframes are blocked by mobile browsers)
                 </p>
-                <BlogWidget limit={5} theme={theme} dataUrl="/widgets.json" onReadMore={(post) => navigate(`/blog/${post.id}`)} />
+                <BlogWidget limit={6} theme={theme} dataUrl="/widgets.json" onReadMore={(post) => navigate(`/blog/${post.id}`)} />
               </>
             ) : (
               <iframe
-                src={`${IFRAME_BASE}?type=blog&limit=5&theme=${theme}`}
+                src={`${IFRAME_BASE}?type=blog&limit=6&theme=${theme}`}
                 style={iframeStyle}
                 title="Datumart Blog Widget"
               />

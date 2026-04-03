@@ -1,5 +1,5 @@
 import React from "react";
-import type { BlogPost, WidgetTheme } from "../../types";
+import type { BlogPost, WidgetTheme } from "../../types";//11,93
 
 interface Props {
   post: BlogPost;

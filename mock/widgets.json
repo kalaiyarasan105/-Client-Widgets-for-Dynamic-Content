@@ -49,6 +49,16 @@
       "readMoreUrl": "https://datumart.com/blog/iframe-security-postmessage",
       "author": "Security Team",
       "tags": ["IFrame", "Security", "postMessage"]
+    },
+    {
+      "id": "6",
+      "title": "Social Media Marketing for Tech Brands",
+      "excerpt": "Explore proven social media strategies that help tech companies grow their audience, drive engagement, and convert followers into customers.",
+      "image": "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=600&q=80",
+      "publishDate": "2026-04-01",
+      "readMoreUrl": "https://datumart.com/blog/social-media-marketing-tech",
+      "author": "Marketing Team",
+      "tags": ["Social Media", "Marketing", "Growth"]
     }
   ],
   "seoPages": {

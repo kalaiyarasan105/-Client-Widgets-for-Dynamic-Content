@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { BlogWidget, SeoWidget } from "@datumart/react-widgets";
-import type { WidgetTheme, BlogPost } from "@datumart/react-widgets";
+import type { WidgetTheme, BlogPost } from "@datumart/react-widgets";//
 
 /**
  * Reads URL query params and renders the appropriate widget.
@@ -17,7 +17,7 @@ export const IFrameApp: React.FC = () => {
 
   const type = params.get("type") ?? "blog";
   const theme = (params.get("theme") ?? "light") as WidgetTheme;
-  const limit = parseInt(params.get("limit") ?? "5", 10);
+  const limit = parseInt(params.get("limit") ?? "6", 10);
   const pageId = params.get("pageId") ?? "home-page";
   const showPreview = params.get("preview") !== "false";
 

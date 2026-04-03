@@ -7,7 +7,7 @@ interface FetchState<T> {
 }
 
 /**
- * Generic hook to fetch widget data from a URL or local JSON path.
+ *  hook to fetch widget data from a URL or local JSON path.
  */
 export function useWidgetData<T>(url: string): FetchState<T> {
   const [state, setState] = useState<FetchState<T>>({

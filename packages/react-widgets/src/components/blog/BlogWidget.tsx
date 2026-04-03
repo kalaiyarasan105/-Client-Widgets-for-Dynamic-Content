@@ -1,12 +1,12 @@
 import React from "react";
-import type { BlogWidgetProps, BlogPost } from "../../types";
+import type { BlogWidgetProps, BlogPost } from "../../types"; //TypeScript types for props and blog structure
 import { useWidgetData } from "../../hooks/useWidgetData";
-import { BlogCard } from "./BlogCard";
-import { LoadingSpinner } from "../shared/LoadingSpinner";
+import { BlogCard } from "./BlogCard";//Displays single blog card
+import { LoadingSpinner } from "../shared/LoadingSpinner";//Shows loader while data fetching
 import { ErrorMessage } from "../shared/ErrorMessage";
-import { EmptyState } from "../shared/EmptyState";
+import { EmptyState } from "../shared/EmptyState";//21,27
 
-const DEFAULT_DATA_URL = "/mock/widgets.json";
+const DEFAULT_DATA_URL = "/mock/widgets.json";//If no URL provided → fetch from this JSON
 
 interface WidgetsJson {
   blogs: BlogPost[];
