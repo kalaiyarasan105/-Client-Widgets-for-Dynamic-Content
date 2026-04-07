@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { BlogWidget, SeoWidget } from "@datumart/react-widgets";
-import type { WidgetTheme } from "@datumart/react-widgets";//6,126,330
+import { BlogWidget, SeoWidget, useBlogs, useSeo } from "@datumart/react-widgets";
+import type { WidgetTheme } from "@datumart/react-widgets";
 
-type Tab = "jsx-blog" | "jsx-seo" | "iframe-blog" | "iframe-seo";
+type Tab = "jsx-blog" | "jsx-seo" | "iframe-blog" | "iframe-seo" | "headless-blog" | "headless-seo";
 
 const IFRAME_BASE =
   (window as unknown as { __IFRAME_BASE__?: string }).__IFRAME_BASE__ ??
@@ -104,6 +104,205 @@ const CodeBlock: React.FC<{ code: string; lang?: string; isDark: boolean }> = ({
         </button>
       </div>
       <pre style={pre}>{code}</pre>
+    </div>
+  );
+};
+
+// ---------------------------------------------------------------------------
+// HeadlessBlogTab — layout toggle demo using useBlogs hook (no BlogWidget)
+// ---------------------------------------------------------------------------
+const HeadlessBlogTab: React.FC<{ isDark: boolean }> = ({ isDark }) => {
+  const { blogs, loading, error } = useBlogs({ dataUrl: "/widgets.json", limit: 6 });
+  const [layout, setLayout] = useState<"grid" | "list">("grid");
+  const toggleLayout = () => setLayout(prev => prev === "grid" ? "list" : "grid");
+
+  const bg   = isDark ? "#0f172a" : "#f8fafc";
+  const bdr  = isDark ? "#1e293b" : "#e2e8f0";
+  const txt  = isDark ? "#f1f5f9" : "#0f172a";
+  const mute = isDark ? "#94a3b8" : "#64748b";
+  const meta = isDark ? "#475569" : "#94a3b8";
+
+  if (loading) return <div style={{ padding: "2rem", textAlign: "center", color: mute }}>Loading blogs...</div>;
+  if (error)   return <div style={{ padding: "1rem", borderRadius: "8px", background: isDark ? "#1c0a0a" : "#fff1f1", color: "#b91c1c", border: "1px solid #fca5a5" }}>Error: {error}</div>;
+
+  const toggleBtn: React.CSSProperties = {
+    padding: "0.45rem 1.1rem",
+    borderRadius: "6px",
+    border: `1px solid ${bdr}`,
+    background: isDark ? "#1e293b" : "#f1f5f9",
+    color: txt,
+    fontSize: "0.82rem",
+    fontWeight: 600,
+    cursor: "pointer",
+    marginBottom: "1rem",
+  };
+
+  const gridContainer: React.CSSProperties = {
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))",
+    gap: "1.25rem",
+  };
+
+  const listContainer: React.CSSProperties = {
+    display: "flex",
+    flexDirection: "column",
+    gap: "1rem",
+  };
+
+  const gridCard: React.CSSProperties = {
+    borderRadius: "12px",
+    overflow: "hidden",
+    background: bg,
+    border: `1px solid ${bdr}`,
+    display: "flex",
+    flexDirection: "column",
+  };
+
+  const listCard: React.CSSProperties = {
+    borderRadius: "10px",
+    overflow: "hidden",
+    background: bg,
+    border: `1px solid ${bdr}`,
+    display: "flex",
+    flexDirection: "row",
+  };
+
+  const gridImg: React.CSSProperties = { width: "100%", height: "160px", objectFit: "cover", display: "block" };
+  const listImg: React.CSSProperties = { width: "180px", height: "130px", objectFit: "cover", flexShrink: 0, display: "block" };
+
+  const cardBody: React.CSSProperties = { padding: "1rem", display: "flex", flexDirection: "column", gap: "0.35rem", flex: 1 };
+  const tagStyle: React.CSSProperties = { display: "inline-block", padding: "0.15rem 0.5rem", borderRadius: "999px", fontSize: "0.68rem", background: isDark ? "#1e3a5f" : "#ede9fe", color: isDark ? "#93c5fd" : "#5b21b6", marginRight: "0.25rem" };
+
+  return (
+    <div>
+      <p style={{ fontSize: "0.75rem", color: mute, marginBottom: "0.75rem" }}>
+        🧩 Data from <code>useBlogs()</code> — same data, different UI. Toggle to see headless customization.
+      </p>
+
+      <button style={toggleBtn} onClick={toggleLayout}>
+        {layout === "grid" ? "☰ Switch to List" : "⊞ Switch to Grid"}
+      </button>
+
+      {layout === "grid" ? (
+        <div style={gridContainer}>
+          {blogs.map((post) => (
+            <div key={post.id} style={gridCard}>
+              {post.image && <img src={post.image} alt={post.title} style={gridImg} loading="lazy" />}
+              <div style={cardBody}>
+                <h3 style={{ fontSize: "0.95rem", fontWeight: 700, color: txt, margin: 0 }}>{post.title}</h3>
+                <p style={{ fontSize: "0.82rem", color: mute, margin: 0, lineHeight: 1.6, flex: 1 }}>{post.excerpt}</p>
+                <div>{post.tags.map(t => <span key={t} style={tagStyle}>{t}</span>)}</div>
+                <p style={{ fontSize: "0.72rem", color: meta, margin: 0 }}>
+                  {new Date(post.publishDate).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" })} · {post.author}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div style={listContainer}>
+          {blogs.map((post) => (
+            <div key={post.id} style={listCard}>
+              {post.image && <img src={post.image} alt={post.title} style={listImg} loading="lazy" />}
+              <div style={cardBody}>
+                <h3 style={{ fontSize: "1rem", fontWeight: 700, color: txt, margin: 0 }}>{post.title}</h3>
+                <p style={{ fontSize: "0.83rem", color: mute, margin: 0, lineHeight: 1.6, flex: 1 }}>{post.excerpt}</p>
+                <div>{post.tags.map(t => <span key={t} style={tagStyle}>{t}</span>)}</div>
+                <p style={{ fontSize: "0.72rem", color: meta, margin: 0 }}>
+                  {new Date(post.publishDate).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" })} · {post.author}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
+// ---------------------------------------------------------------------------
+// HeadlessSeoTab — custom UI built with useSeo hook (no SeoWidget used)
+// ---------------------------------------------------------------------------
+const HeadlessSeoTab: React.FC<{ isDark: boolean }> = ({ isDark }) => {
+  const { seo, loading, error } = useSeo({ pageId: "home-page", dataUrl: "/widgets.json" });
+
+  if (loading) return (
+    <div style={{ padding: "2rem", textAlign: "center", color: isDark ? "#94a3b8" : "#64748b" }}>
+      Loading SEO data...
+    </div>
+  );
+
+  if (error) return (
+    <div style={{ padding: "1rem", color: "#ef4444", background: isDark ? "#1c0a0a" : "#fff1f1", borderRadius: "8px" }}>
+      Error: {error}
+    </div>
+  );
+
+  if (!seo) return <p style={{ color: isDark ? "#94a3b8" : "#64748b" }}>No SEO data found.</p>;
+
+  const field: React.CSSProperties = {
+    marginBottom: "1rem",
+    padding: "0.85rem 1rem",
+    borderRadius: "10px",
+    background: isDark ? "#0f172a" : "#f8fafc",
+    border: `1px solid ${isDark ? "#1e293b" : "#e2e8f0"}`,
+  };
+
+  const label: React.CSSProperties = {
+    fontSize: "0.68rem",
+    fontWeight: 700,
+    textTransform: "uppercase",
+    letterSpacing: "0.06em",
+    color: isDark ? "#475569" : "#94a3b8",
+    marginBottom: "0.3rem",
+  };
+
+  const value: React.CSSProperties = {
+    fontSize: "0.9rem",
+    color: isDark ? "#f1f5f9" : "#0f172a",
+    wordBreak: "break-all",
+  };
+
+  const pill: React.CSSProperties = {
+    display: "inline-block",
+    padding: "0.2rem 0.6rem",
+    borderRadius: "999px",
+    fontSize: "0.72rem",
+    background: isDark ? "#1e3a5f" : "#ede9fe",
+    color: isDark ? "#93c5fd" : "#5b21b6",
+    marginRight: "0.3rem",
+    marginTop: "0.2rem",
+  };
+
+  return (
+    <div>
+      <p style={{ fontSize: "0.75rem", color: isDark ? "#64748b" : "#94a3b8", marginBottom: "1rem" }}>
+        🧩 Custom UI built with <code>useSeo()</code> — no SeoWidget used
+      </p>
+      <div style={field}>
+        <p style={label}>Page Title</p>
+        <p style={value}>{seo.pageTitle}</p>
+      </div>
+      <div style={field}>
+        <p style={label}>Meta Description</p>
+        <p style={value}>{seo.metaDescription}</p>
+      </div>
+      <div style={field}>
+        <p style={label}>Canonical URL</p>
+        <p style={{ ...value, color: isDark ? "#60a5fa" : "#2563eb" }}>{seo.canonicalUrl}</p>
+      </div>
+      <div style={field}>
+        <p style={label}>Keywords</p>
+        <div>{seo.keywords.map((k) => <span key={k} style={pill}>{k}</span>)}</div>
+      </div>
+      {seo.structuredData && (
+        <div style={field}>
+          <p style={label}>Structured Data (JSON-LD)</p>
+          <pre style={{ fontSize: "0.75rem", color: isDark ? "#86efac" : "#166534", overflowX: "auto", margin: 0 }}>
+            {JSON.stringify(seo.structuredData, null, 2)}
+          </pre>
+        </div>
+      )}
     </div>
   );
 };
@@ -278,6 +477,8 @@ export const App: React.FC = () => {
             ["jsx-seo", "JSX SEO Widget"],
             ["iframe-blog", "IFrame Blog"],
             ["iframe-seo", "IFrame SEO"],
+            ["headless-blog", "Headless Blog"],
+            ["headless-seo", "Headless SEO"],
           ] as [Tab, string][]
         ).map(([id, label]) => (
           <button key={id} style={tabBtn(id)} onClick={() => setActiveTab(id)}>
@@ -383,6 +584,36 @@ export const App: React.FC = () => {
                 iframeLog.map((msg, i) => <p key={i}>{msg}</p>)
               )}
             </div>
+          </>
+        )}
+
+        {activeTab === "headless-blog" && (
+          <>
+            <p style={sectionTitle}>Headless — useBlogs Hook</p>
+            <HeadlessBlogTab isDark={isDark} />
+            <CodeBlock isDark={isDark} lang="tsx" code={`import { useBlogs } from "@datumart/react-widgets";
+
+const { blogs, loading, error } = useBlogs({
+  dataUrl: "/widgets.json",
+  limit: 6,
+});
+
+// Render your own UI — full control over layout and CSS`} />
+          </>
+        )}
+
+        {activeTab === "headless-seo" && (
+          <>
+            <p style={sectionTitle}>Headless — useSeo Hook</p>
+            <HeadlessSeoTab isDark={isDark} />
+            <CodeBlock isDark={isDark} lang="tsx" code={`import { useSeo } from "@datumart/react-widgets";
+
+const { seo, loading, error } = useSeo({
+  pageId: "home-page",
+  dataUrl: "/widgets.json",
+});
+
+// Render your own UI — full control over layout and CSS`} />
           </>
         )}
       </div>
